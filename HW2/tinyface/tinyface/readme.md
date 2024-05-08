@@ -1,0 +1,7 @@
+- train
+  - 每个文件夹中的人脸图像来自同一人
+  - 文件名名方式为：“人ID_图像ID.jpg”
+- test
+  - target_faces：目标图像
+  - test_faces：用于同目标图像进行匹配测试的人脸图像
+  - 文件名名方式为：“人ID_图像ID.jpg”
