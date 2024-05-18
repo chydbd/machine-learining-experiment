@@ -7,7 +7,8 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(f"Using {device} for computations")
 
 Tr_data,Tr_dataloader = image_read("emotion recognition/emotion recognition/train")
-model = Model(input_size = 48*48*3, hidden_size1 = 16, hidden_size2 = 16, hidden_size3 = 16, output_size=6).to(device)
+print("read finished")
+model = Model().to(device)
 
 criterion = nn.CrossEntropyLoss()
 optimizer = torch.optim.SGD(model.parameters(), lr=0.01)
@@ -15,9 +16,9 @@ optimizer = torch.optim.SGD(model.parameters(), lr=0.01)
 losses = []
 for epoch in range(200):  
     for inputs, targets in Tr_dataloader:
-        inputs = inputs.view(inputs.size(0), -1).to(device)
+        inputs = inputs.to(device)
         targets = targets.to(device)
-        
+        targets = targets.float()
         # 前向传播
         outputs = model(inputs)
         loss = criterion(outputs, targets)
