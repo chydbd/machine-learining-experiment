@@ -13,7 +13,7 @@ def image_read(folder_path):
 
     #图片读取
     dataset = datasets.ImageFolder(root=folder_path, transform=transform)
-    dataloader = torch.utils.data.DataLoader(dataset, batch_size=32, shuffle=True)
+    dataloader = torch.utils.data.DataLoader(dataset, batch_size=100, shuffle=True)
 
     return dataset, dataloader
 
@@ -28,7 +28,6 @@ class Model(nn.Module):
 
     def forward(self, x):
         # 通过每个全连接层后应用ReLU激活函数
-        print(x.shape)
         x = F.relu(self.fc1(x))
         x = F.relu(self.fc2(x))
         x = F.relu(self.fc3(x))
