@@ -24,7 +24,7 @@ def image_read(folder_path):
 
     # 图片读取
     dataset = CustomImageFolder(root=folder_path, transform=transform)
-    dataloader = DataLoader(dataset, batch_size=100, shuffle=True)
+    dataloader = DataLoader(dataset, batch_size=200, shuffle=True)
 
     return dataset, dataloader
 
@@ -32,9 +32,9 @@ class Model(nn.Module):
     def __init__(self):
         super(Model, self).__init__()
         self.conv1 = nn.Conv2d(3,10,5)
-        self.conv2 = nn.Conv2d(10,20,3)
-        self.fc1 = nn.Linear(20*20*20,500)
-        self.fc2 = nn.Linear(500,6)
+        self.fc1 = nn.Linear(22*22*10,200)
+        self.fc2 = nn.Linear(200,40)
+        self.fc3 = nn.Linear(40,6)
 
     def forward(self, x):
         # 通过每个全连接层后应用ReLU激活函数
@@ -43,15 +43,15 @@ class Model(nn.Module):
         x = F.relu(x)
         x = F.max_pool2d(x,2,2)
 
-        x = self.conv2(x)
-        x = F.relu(x)
-
         x = x.view(input_size,-1)
 
         x = self.fc1(x)
         x = F.relu(x)
-
+        
         x = self.fc2(x)
+        x = F.relu(x)
+
+        x = self.fc3(x)
 
         output = F.log_softmax(x, dim=1)
         return output
