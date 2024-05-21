@@ -3,6 +3,7 @@ from torchvision import datasets, transforms
 from torch.utils.data import DataLoader
 from torch import nn
 import torch.nn.functional as F
+from PIL import Image
 
 class CustomImageFolder(datasets.ImageFolder):
     def __init__(self, root, transform=None):
@@ -54,3 +55,14 @@ class Model(nn.Module):
 
         output = F.log_softmax(x, dim=1)
         return output
+    
+def test_image_read(file_path):
+    transform = transforms.Compose([
+    transforms.Resize((48, 48)),  
+    transforms.ToTensor()         
+    ])
+    image = Image.open(file_path)  # 替换为你的图片路径
+    image_tensor = transform(image).unsqueeze(0)  # 添加batch维度
+    image_tensor= image_tensor.repeat(1, 3, 1, 1)
+    return image_tensor
+
